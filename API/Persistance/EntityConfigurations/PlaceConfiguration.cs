@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace API.Persistance.EntityConfigurations;
 
-public class PlaceConfiguration: IEntityTypeConfiguration<Place>
+public class PlaceConfiguration : IEntityTypeConfiguration<Place>
 {
     public void Configure(EntityTypeBuilder<Place> builder)
     {
-        builder.ToTable("place");
-
         builder.Property(e => e.Id)
             .HasColumnType("int(11)")
             .HasColumnName("id");
@@ -29,5 +27,7 @@ public class PlaceConfiguration: IEntityTypeConfiguration<Place>
         builder.Property(e => e.Name)
             .HasMaxLength(120)
             .HasColumnName("name");
+
+        builder.ToTable("place");
     }
 }

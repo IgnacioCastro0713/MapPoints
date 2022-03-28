@@ -31,12 +31,37 @@ namespace API.Persistance.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8")
                 .Annotation("Relational:Collation", "utf8_general_ci");
+
+            migrationBuilder.CreateTable(
+                name: "user",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int(11)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    firstname = table.Column<string>(type: "longtext", nullable: false, collation: "utf8_general_ci")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    lastname = table.Column<string>(type: "longtext", nullable: true, collation: "utf8_general_ci")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    email = table.Column<string>(type: "longtext", nullable: false, collation: "utf8_general_ci")
+                        .Annotation("MySql:CharSet", "utf8"),
+                    Password = table.Column<string>(type: "longtext", nullable: false, collation: "utf8_general_ci")
+                        .Annotation("MySql:CharSet", "utf8")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user", x => x.id);
+                })
+                .Annotation("MySql:CharSet", "utf8")
+                .Annotation("Relational:Collation", "utf8_general_ci");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "place");
+
+            migrationBuilder.DropTable(
+                name: "user");
         }
     }
 }

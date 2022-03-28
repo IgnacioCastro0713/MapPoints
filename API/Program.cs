@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.GetConnectionString("Connection"),
             ServerVersion.Parse(builder.Configuration.GetConnectionString("MySqlServerVersion"))
         ));
-    
+    //services.AddJwtAuthentication(Configuration["TokenKey"]);
     services.AddScoped<IUserService, UserService>(); 
     
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

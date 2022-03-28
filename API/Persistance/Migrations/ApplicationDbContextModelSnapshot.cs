@@ -53,6 +53,36 @@ namespace API.Persistance.Migrations
 
                     b.ToTable("place", (string)null);
                 });
+
+            modelBuilder.Entity("API.Core.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int(11)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("firstname");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext")
+                        .HasColumnName("lastname");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("user", (string)null);
+                });
 #pragma warning restore 612, 618
         }
     }

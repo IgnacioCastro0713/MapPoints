@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Persistance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220328023540_InitialCreate")]
+    [Migration("20220328060030_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,6 +54,36 @@ namespace API.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("place", (string)null);
+                });
+
+            modelBuilder.Entity("API.Core.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int(11)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("email");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("firstname");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("longtext")
+                        .HasColumnName("lastname");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("user", (string)null);
                 });
 #pragma warning restore 612, 618
         }
