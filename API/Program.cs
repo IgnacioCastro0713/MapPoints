@@ -1,4 +1,5 @@
 using API.Core.Interfaces.Services;
+using API.Core.Middlewares;
 using API.Persistance.DbContext;
 using API.Services;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.GetConnectionString("Connection"),
             ServerVersion.Parse(builder.Configuration.GetConnectionString("MySqlServerVersion"))
         ));
-    //services.AddJwtAuthentication(Configuration["TokenKey"]);
     services.AddScoped<IUserService, UserService>(); 
     
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     services.AddEndpointsApiExplorer();
     services.AddSwaggerGen();
 }
@@ -34,6 +33,13 @@ var app = builder.Build();
     app.UseHttpsRedirection();
 
     app.UseAuthorization();
+    
+    app.UseCors(x => x
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader());
+
+    app.UseMiddleware<JwtMiddleware>();
 
     app.MapControllers();
 }
