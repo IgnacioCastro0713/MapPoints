@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using API.Core.Dtos;
 using API.Core.Helpers;
+using API.Core.Interfaces;
 using API.Core.Interfaces.Services;
 using API.Core.Models;
 using Microsoft.Extensions.Options;
@@ -13,18 +14,24 @@ namespace API.Services;
 
 public class UserService: IUserService
 {
-    
+    private readonly IUnitOfWork _unitOfWork;
     private const int TokenDurationDays = 7;
     private readonly AppSettings _appSettings;
 
-    public UserService(IOptions<AppSettings> appSettings)
+    public UserService(IUnitOfWork unitOfWork, IOptions<AppSettings> appSettings)
     {
+        _unitOfWork = unitOfWork;
         _appSettings = appSettings.Value;
     }
 
     public Task<AuthenticateResponse> Authenticate(AuthenticationDto dto)
     {
         return null;
+    }
+
+    public async Task<User?> GetByEmail(string email)
+    {
+        return await _unitOfWork.UserRepository.GetByEmail(email);
     }
 
     private string GenerateToken(User model)

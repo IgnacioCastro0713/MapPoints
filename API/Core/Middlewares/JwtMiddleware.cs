@@ -23,13 +23,12 @@ public class JwtMiddleware
     {
         var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-        if (token is not null)
-            AttachUserToContext(context, userService, token);
+        if (token is not null) AttachUserToContext(context, userService, token);
 
         await _next(context);
     }
 
-    private void AttachUserToContext(HttpContext context, IUserService userService, string token)
+    private async void AttachUserToContext(HttpContext context, IUserService userService, string token)
     {
         try
         {
@@ -41,15 +40,14 @@ public class JwtMiddleware
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = false,
                 ValidateAudience = false,
-                // set clock-skew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
                 ClockSkew = TimeSpan.Zero
             }, out var validatedToken);
 
             var jwtToken = (JwtSecurityToken)validatedToken;
-            var userEmail = int.Parse(jwtToken.Claims.First(x => x.Type == "Email").Value);
+            var userEmail = jwtToken.Claims.First(x => x.Type == "Email").Value;
 
             // attach user to context on successful jwt validation
-            //TODO: context.Items["User"] = userService.GetById(userId);
+            context.Items["User"] = await userService.GetByEmail(userEmail);
         }
         catch
         {

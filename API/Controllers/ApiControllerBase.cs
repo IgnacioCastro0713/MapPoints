@@ -3,7 +3,7 @@
 namespace API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[controller]/[action]")]
 public class ApiControllerBase : ControllerBase
 {
 }
