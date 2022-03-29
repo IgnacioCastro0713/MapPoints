@@ -1,4 +1,5 @@
 using API.Core.Extensions;
+using API.Core.Helpers;
 using API.Core.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
     var services = builder.Services;
 
     services.AddControllers();
-    services.AddMySqlDbContext(builder);
+    
+    services.AddAppSettings(builder.Configuration);
+    services.AddMySqlDbContext(builder.Configuration);
 
     services.AddUnitOfWork();
     services.AddServices();

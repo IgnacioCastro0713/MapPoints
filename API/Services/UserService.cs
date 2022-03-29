@@ -24,14 +24,20 @@ public class UserService: IUserService
         _appSettings = appSettings.Value;
     }
 
-    public Task<AuthenticateResponse> Authenticate(AuthenticationDto dto)
+    public async Task<AuthenticateResponse?> Authenticate(AuthenticationDto dto)
     {
-        return null;
+        var user = await _unitOfWork.UserRepository.GetByEmailAndPasswordOrDefaultAsync(dto);
+
+        if (user is null) return null;
+
+        var token = GenerateToken(user);
+
+        return new AuthenticateResponse(user, token);
     }
 
     public async Task<User?> GetByEmail(string email)
     {
-        return await _unitOfWork.UserRepository.GetByEmail(email);
+        return await _unitOfWork.UserRepository.GetByEmailAsync(email);
     }
 
     private string GenerateToken(User model)

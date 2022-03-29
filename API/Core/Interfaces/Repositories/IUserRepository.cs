@@ -1,8 +1,11 @@
-﻿using API.Core.Models;
+﻿using API.Core.Dtos;
+using API.Core.Models;
 
 namespace API.Core.Interfaces.Repositories;
 
 public interface IUserRepository
 {
-    Task<User?> GetByEmail(string email);
+    Task<User?> GetByEmailAsync(string email);
+
+    Task<User?> GetByEmailAndPasswordOrDefaultAsync(AuthenticationDto dto);
 }

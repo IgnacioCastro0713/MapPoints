@@ -6,6 +6,6 @@ namespace API.Core.Interfaces.Services;
 
 public interface IUserService
 {
-    Task<AuthenticateResponse> Authenticate(AuthenticationDto dto);
+    Task<AuthenticateResponse?> Authenticate(AuthenticationDto dto);
     Task<User?> GetByEmail(string email);
 }
