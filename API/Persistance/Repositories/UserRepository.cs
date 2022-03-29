@@ -19,10 +19,16 @@ public class UserRepository : IUserRepository
             .SingleOrDefaultAsync(user => user.Email == email);
     }
 
-    public async Task<User?> GetByEmailAndPasswordOrDefaultAsync(AuthenticationDto dto)
+    public async Task AddAsync(RegisterDto dto)
     {
-        return await _context
-            .Users
-            .SingleOrDefaultAsync(x => x.Email == dto.Email && x.Password == dto.Password);
+        User user = new()
+        {
+            Email = dto.Email,
+            Password = dto.Password,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName
+        };
+        
+        await _context.Users.AddAsync(user);
     }
 }

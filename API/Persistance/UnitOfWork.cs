@@ -16,7 +16,7 @@ public class UnitOfWork : IUnitOfWork
         UserRepository = new UserRepository(_context);
     }
 
-    public async Task<int> Complete()
+    public async Task<int> CompleteAsync()
     {
         return await _context.SaveChangesAsync();
     }

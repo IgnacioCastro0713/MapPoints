@@ -11,8 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace API.Services;
 
-
-public class UserService: IUserService
+public class UserService : IUserService
 {
     private readonly IUnitOfWork _unitOfWork;
     private const int TokenDurationDays = 7;
@@ -26,9 +25,9 @@ public class UserService: IUserService
 
     public async Task<AuthenticateResponse?> Authenticate(AuthenticationDto dto)
     {
-        var user = await _unitOfWork.UserRepository.GetByEmailAndPasswordOrDefaultAsync(dto);
+        var user = await _unitOfWork.UserRepository.GetByEmailAsync(dto.Email);
 
-        if (user is null) return null;
+        if (user is null || !BCrypt.Net.BCrypt.Verify(dto.Password, user.Password)) return null;
 
         var token = GenerateToken(user);
 
@@ -38,6 +37,20 @@ public class UserService: IUserService
     public async Task<User?> GetByEmail(string email)
     {
         return await _unitOfWork.UserRepository.GetByEmailAsync(email);
+    }
+
+    public async Task Register(RegisterDto dto)
+    {
+        var user = await _unitOfWork.UserRepository.GetByEmailAsync(dto.Email);
+
+        if (user is not null)
+            throw new Exception($"Username '{dto.Email}' is already taken");
+
+        dto.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
+        await _unitOfWork.UserRepository.AddAsync(dto);
+
+        await _unitOfWork.CompleteAsync();
     }
 
     private string GenerateToken(User model)

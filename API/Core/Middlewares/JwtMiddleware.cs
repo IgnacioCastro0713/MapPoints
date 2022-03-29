@@ -5,7 +5,6 @@ using API.Core.Interfaces.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-
 namespace API.Core.Middlewares;
 
 public class JwtMiddleware

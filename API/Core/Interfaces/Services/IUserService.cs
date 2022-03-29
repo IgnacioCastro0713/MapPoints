@@ -8,4 +8,6 @@ public interface IUserService
 {
     Task<AuthenticateResponse?> Authenticate(AuthenticationDto dto);
     Task<User?> GetByEmail(string email);
+
+    Task Register(RegisterDto dto);
 }
