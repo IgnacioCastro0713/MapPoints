@@ -37,6 +37,7 @@ var app = builder.Build();
         .AllowAnyMethod()
         .AllowAnyHeader());
 
+    app.UseMiddleware<ErrorHandlerMiddleware>();
     app.UseMiddleware<JwtMiddleware>();
 
     app.MapControllers();

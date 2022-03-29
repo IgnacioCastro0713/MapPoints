@@ -44,7 +44,7 @@ public class UserService : IUserService
         var user = await _unitOfWork.UserRepository.GetByEmailAsync(dto.Email);
 
         if (user is not null)
-            throw new Exception($"Username '{dto.Email}' is already taken");
+            throw new AppException($"Username '{dto.Email}' is already taken");
 
         dto.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
