@@ -48,7 +48,14 @@ public class UserService : IUserService
 
         dto.Password = BCrypt.Net.BCrypt.HashPassword(dto.Password);
 
-        await _unitOfWork.UserRepository.AddAsync(dto);
+
+        await _unitOfWork.UserRepository.AddAsync(new User
+        {
+            Email = dto.Email,
+            Password = dto.Password,
+            FirstName = dto.FirstName,
+            LastName = dto.LastName
+        });
 
         await _unitOfWork.CompleteAsync();
     }

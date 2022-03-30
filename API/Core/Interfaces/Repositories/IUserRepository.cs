@@ -6,5 +6,5 @@ namespace API.Core.Interfaces.Repositories;
 public interface IUserRepository
 {
     Task<User?> GetByEmailAsync(string email);
-    Task AddAsync(RegisterDto dto);
+    Task AddAsync(User model);
 }

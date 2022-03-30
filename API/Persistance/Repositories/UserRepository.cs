@@ -1,5 +1,4 @@
-﻿using API.Core.Dtos;
-using API.Core.Interfaces.Repositories;
+﻿using API.Core.Interfaces.Repositories;
 using API.Core.Models;
 using API.Persistance.DbContext;
 using Microsoft.EntityFrameworkCore;
@@ -19,16 +18,8 @@ public class UserRepository : IUserRepository
             .SingleOrDefaultAsync(user => user.Email == email);
     }
 
-    public async Task AddAsync(RegisterDto dto)
+    public async Task AddAsync(User model)
     {
-        User user = new()
-        {
-            Email = dto.Email,
-            Password = dto.Password,
-            FirstName = dto.FirstName,
-            LastName = dto.LastName
-        };
-        
-        await _context.Users.AddAsync(user);
+        await _context.Users.AddAsync(model);
     }
 }
