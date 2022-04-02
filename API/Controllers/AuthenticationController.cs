@@ -15,7 +15,7 @@ public class AuthenticationController : ApiControllerBase
     {
         var response = await _userService.Authenticate(dto);
 
-        if (response is null) return BadRequest(new { message = "Username or password is incorrect" });
+        if (response is null) return BadRequest(new { message = "Email or password is incorrect" });
 
         return Ok(response);
     }
